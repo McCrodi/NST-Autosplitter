@@ -5,7 +5,7 @@ state("CrashBandicootNSaneTrilogy", "Steam")
     float fade : 0x1A69598, 0xA0, 0x40, 0xF8, 0x10, 0x3AC; //detects level of the fade out (value from Grimelios' Load Remover)
     string255 stage : 0x1A5C6E7;
     bool enteringGame : 0x1A91610, 0x50, 0x50, 0x28, 0x18, 0x520;
-    bool pause : 0x01A8FEB8, 0x938; //detects pause menu
+    bool pause : 0x01A5B010, 0x100; //detects pause menu
     byte c1Cortex : 0x01A745B0, 0x940, 0x5C8; //C1 Any%, 105%
     bool c2SpeedShoes : 0x01A69A98, 0xE8, 0xA0, 0xA28; //C2 SpeedShoes
     float c2Cortex : 0x01AAC7E0, 0x468; //C2 Any%
