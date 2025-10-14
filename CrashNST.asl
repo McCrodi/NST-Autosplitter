@@ -12,6 +12,9 @@ state("CrashBandicootNSaneTrilogy", "Steam")
     bool c3WarpPortal : 0x01A62370, 0x48, 0x3B0; //C3 Any% 108%
     float progress : 0x1AA27C0; //%
     int gems : 0x01AA27C8, 0x18; //Gems
+    int platinumRelics : 0x01AA27C8, 0x24;
+    int goldRelics : 0x01AA27C8, 0x20;
+    int sapphireRelics : 0x01AA27C8, 0x1C;
     byte c3SuperPower1 : 0x01A69A98, 0x18, 0x70, 0xA88; //Super Charged Body Slam
     byte c3SuperPower2 : 0x01A69A98, 0xE8, 0xA0, 0x908; //Double Jump
     byte c3SuperPower3 : 0x01A69A98, 0xE8, 0xA0, 0x8A8; //Death Tornado Spin
@@ -33,6 +36,9 @@ state("CrashBandicootNSaneTrilogy", "Gamepass")
     bool c3WarpPortal : 0x01A8B780, 0x48, 0x730; //C3 Any% 108%
     float progress : 0x1AC9BF8; //%
     int gems : 0x01AC9C00, 0x18; //Gems
+    int platinumRelics : 0x01AC9C00, 0x24;
+    int goldRelics : 0x01AC9C00, 0x20;
+    int sapphireRelics : 0x01AC9C00, 0x1C;
     byte c3SuperPower1 : 0x01AD1288, 0x28, 0x18, 0x88, 0x40, 0x28, 0xA88; //Super Charged Body Slam
     byte c3SuperPower2 : 0x01AD1288, 0x28, 0x18, 0x88, 0x40, 0x28, 0x908; //Double Jump
     byte c3SuperPower3 : 0x01AD1288, 0x28, 0x18, 0x88, 0x40, 0x28, 0x8A8; //Death Tornado Spin
@@ -118,7 +124,9 @@ init
     vars.stageId = "";
     vars.stageIdKeep = "";
     vars.numbering = "";
-    vars.hubLoading = 0;//Controls auto splitting when a save file is loaded
+    vars.hubLoading = 0; //controls auto splitting when a save file is loaded
+    vars.relics = 0; //for time trial storage
+    vars.relicsKeep = 0;
 
     vars.CheckStageId = (Action<string>)(stage =>
     {
@@ -208,6 +216,8 @@ onStart
     vars.stageIdKeep = "";
     vars.numbering = "";
     vars.hubLoading = 0;
+    vars.relics = 0;
+    vars.relicsKeep = 0;
 
     //for practice (if the start is not the title but the hub or loading screen)
     
@@ -252,7 +262,7 @@ update
 
     vars.inHub = vars.stageId == "l100" || vars.stageId == "l200" || vars.stageId == "l300";
 
-    if((vars.inHub == true && current.pause == true) || (vars.inHub == false && current.pause == false))
+    if(((vars.inHub == true && current.pause == true) && vars.relicsKeep == vars.relics) || (vars.inHub == false && current.pause == false))
         vars.pauseFlag = current.pause;
 
     if(vars.inHub == true && vars.hubCount == 0)
@@ -420,6 +430,12 @@ update
 
     if(current.fade < 1)
         vars.startOfBlack = 0; //resetting the value
+
+    //relics
+    
+    vars.relics = current.platinumRelics + current.goldRelics + current.sapphireRelics;
+    if(vars.inHub == true && current.pause == false)
+        vars.relicsKeep = vars.relics;
 
     //loading
 
