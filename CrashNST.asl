@@ -303,7 +303,7 @@ update
     if (vars.stageId == "i101")
         vars.hubVisitState = 2;
 
-    if (vars.stageId == "t000" && vars.clearGame)
+    if ((vars.inHub || vars.stageId == "t000") && vars.clearGame)
         vars.clearGame = false;
 
     // ---------------------------------------------------------------------
